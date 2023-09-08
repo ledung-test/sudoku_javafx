@@ -1,0 +1,110 @@
+Button{
+    -fx-font-size: 20px;
+    -fx-cursor: hand;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+}
+/*nút new game*/
+#solution_button{
+    -fx-background-color: #0072e3;
+    -fx-text-fill: #ffffff;
+}
+#solution_button:hover{
+    -fx-background-color: #0065c8;
+}
+/*các nút từ 1 -> 9*/
+.nb{
+    -fx-font-size: 40px;
+    -fx-background-color: #e3e7ec;
+    -fx-text-fill: #0072e3;
+}
+.nb:hover{
+    -fx-background-color: #cfd5de;
+}
+/*Tạo viền sudokuGrid khi pause*/
+.paused-border{
+    -fx-border-width: 2 2 2 2;
+    -fx-border-color: black;
+}
+/* Định nghĩa viền mỏng */
+.cell-border {
+    -fx-border-width: 0.5 0.5 0.5 0.5;
+    -fx-border-color: lightgray;
+}
+/* Định nghĩa viền dày */
+.thick-border-top {
+    -fx-border-width: 2 0.5 0.5 0.5;
+    -fx-border-color: black lightgray lightgray lightgray;
+}
+.thick-border-right {
+    -fx-border-width: 0.5 2 0.5 0.5;
+    -fx-border-color: lightgray black lightgray lightgray;
+}
+.thick-border-bottom {
+    -fx-border-width: 0.5 0.5 2 0.5;
+    -fx-border-color: lightgray lightgray black lightgray;
+}
+
+.thick-border-left {
+    -fx-border-width: 0.5 0.5 0.5 2;
+    -fx-border-color: lightgray lightgray lightgray black;
+}
+.top-right-corner{
+    -fx-border-width: 2 2 0.5 0.5 ;
+    -fx-border-color: black black lightgray lightgray ;
+}
+.top-left-corner {
+    -fx-border-width: 2 0.5 0.5 2;
+    -fx-border-color: black lightgray lightgray black;
+}
+.bottom-left-corner {
+    -fx-border-width: 0.5 0.5 2 2;
+    -fx-border-color: lightgray lightgray black black;
+}
+.right-bottom-corner{
+    -fx-border-width: 0.5 2 2 0.5 ;
+    -fx-border-color: lightgray black black lightgray ;
+}
+/*Click một ô */
+.highlighted-same-value {
+    -fx-background-color: #e2ebf3; /* Một màu xanh nhạt */
+}
+.highlighted-selected-cell {
+    -fx-background-color: #bbdefb; /* Màu xanh dương nhạt hơn một chút */
+}
+/*Khi trùng giá trị*/
+.error-cell {
+    -fx-text-fill: red;
+}
+/*Label độ khó*/
+.difficult_label{
+    -fx-font-size: 15px;
+    -fx-text-fill: #94A3B7;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.difficult_label_selected{
+    -fx-text-fill: #0072e3;
+}
+/*Số lần phạm lỗi*/
+.count_error_label{
+    -fx-font-size: 15px;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+/*Button chức năng*/
+.circle_button{
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-background-color: #e3e7ec;
+}
+.circle_button:hover{
+    -fx-background-color: #cfd5de;
+}
+/*Text chức năng*/
+.function_label{
+    -fx-font-size: 14px;
+    -fx-text-fill: #0072e3;
+    -fx-font-weight: bold;
+}
+
