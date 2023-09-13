@@ -103,7 +103,7 @@ Button{
 }
 /*Text chức năng*/
 .function_label{
-    -fx-font-size: 14px;
+    -fx-font-size: 12px;
     -fx-text-fill: #0072e3;
     -fx-font-weight: bold;
 }

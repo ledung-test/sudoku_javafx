@@ -1,7 +1,7 @@
 package com.example.test.enums;
 
 public enum Difficulty {
-    EASY(23),
+    EASY(22),
     MEDIUM(25),
     HARD(27);
 

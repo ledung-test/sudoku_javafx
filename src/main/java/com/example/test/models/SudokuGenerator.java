@@ -1,5 +1,6 @@
 package com.example.test.models;
 
+import com.example.test.controllers.Message;
 import com.example.test.enums.Difficulty;
 
 import java.util.*;
@@ -12,6 +13,8 @@ public class SudokuGenerator {
     private int solutionsCounter;
     private List<Coordinates> emptyTiles;
     private Difficulty currentDifficulty = Difficulty.EASY;
+    int failedAttempts = 0;
+    final int MAX_ATTEMPTS = 200;
 
     public SudokuGenerator() {
         board = new Board();
@@ -21,6 +24,7 @@ public class SudokuGenerator {
         isSolvable = false;
         possibleValues = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
     }
+    //Restart các trường của lớp
     public void reset() {
         board = new Board();
         emptyTiles.clear();
@@ -50,15 +54,15 @@ public class SudokuGenerator {
         removeTilesFromTheBoard(currentDifficulty.getRemovals());
         return board.getBoard();
     }
-
+    //Lấy ra bảng kết quả
     public int[][] getSolutionBoard() {
         return solutionBoard;
     }
-
+    //Set độ khó game
     public void setCurrentDifficulty(Difficulty currentDifficulty) {
         this.currentDifficulty = currentDifficulty;
     }
-
+    //Lấy ra bảng board đã xóa
     public Board getBoard() {
         return this.board;
     }
@@ -66,6 +70,7 @@ public class SudokuGenerator {
     public boolean isUserInputValid(int x, int y, int userInput) {
         return solutionBoard[x][y] == userInput;
     }
+    //Lấy kết quả từ bảng kết quả với vị trí cụ thể
     public int getSolutionValue(int x, int y){
         return solutionBoard[x][y];
     }
@@ -149,7 +154,7 @@ public class SudokuGenerator {
     }
     //Dùng backtracking tạo ra một bảng hợp lệ
     private void fillBoard(int currentTileNr){
-        Collections.shuffle(possibleValues);//Xáo trộn các số để
+        Collections.shuffle(possibleValues);//Xáo trộn các số để mỗi lần chạy thuật toán các số được thử ngẫu nhiên
         for (int index = 0; index < possibleValues.size() && !isSolvable; index++) {
             int xIndex = emptyTiles.get(currentTileNr).getX();
             int yIndex = emptyTiles.get(currentTileNr).getY();
@@ -230,6 +235,13 @@ public class SudokuGenerator {
                 board.getCell(symmetricXCoord, symmetricYCoord).setValue(symmetricBackUpValue);
                 System.out.println(backUpValue);
                 System.out.println(symmetricBackUpValue);
+                failedAttempts++;
+                if (failedAttempts >= MAX_ATTEMPTS) {
+                    Message.showAlert("Thông báo", "Không thể tạo ra một bảng Sudoku với giải pháp duy nhất. " +
+                            "Bảng dưới đây có thể có nhiều cách giải.");
+                    failedAttempts = 0;
+                    return;
+                }
             }else {
                 nrOfRemovals--;
                 System.out.println("Số cách: " + solutionsCounter);

@@ -27,6 +27,8 @@ public class SudokuController implements Initializable {
     private Label label_note, label_suggest, time_label, error_lb, label_easy, label_medium, label_hard;
     @FXML
     private SVGPath toggleIcon;
+    @FXML
+    private Button btn_suggest, btn_pause, btn_delete;
 
     private boolean isPaused = false;
     private int errorCount = 0;
@@ -190,6 +192,7 @@ public class SudokuController implements Initializable {
                 loadBoardValuesFromUI();
                 if (sudokuGenerator.isBoardComplete()) {
                     message.showSuccessMessage();
+                    disableSuggestAndPause();
                 }
             }
         } else {
@@ -272,6 +275,7 @@ public class SudokuController implements Initializable {
         resetCellColors();
         resetNotes();
         restartVisibleStackPane();
+        enableSuggestAndPause();
         resetGameBoard();
         loadBoardValuesToUI();
     }
@@ -325,6 +329,14 @@ public class SudokuController implements Initializable {
         sudokuGenerator.setCurrentDifficulty(difficulty);
         sudokuGrid.getStyleClass().remove("paused-border");
         printBoardInConsole();
+    }
+    private void disableSuggestAndPause(){
+        btn_suggest.setDisable(true);
+        btn_pause.setDisable(true);
+    }
+    private void enableSuggestAndPause(){
+        btn_suggest.setDisable(false);
+        btn_pause.setDisable(false);
     }
     //==================================================================================================================
     //====================================CHỨC NĂNG GHI CHÚ=============================================================
@@ -455,6 +467,24 @@ public class SudokuController implements Initializable {
         }
     }
     //==================================================================================================================
+    //=========================================CHỨC NĂNG XÓA============================================================
+    @FXML
+    private void handleDeleteSelection(ActionEvent event){
+        if (selectedCell == null) return;
+        Label targetLabel = getLabelFromStackPane(selectedCell);
+        if (targetLabel == null) return;
+        Coordinates coords = getGridCoordinates(selectedCell);
+        Cell currentCell = sudokuGenerator.getBoard().getCell(coords.getX(), coords.getY());
+        if (currentCell.isEditable()){
+            GridPane notesGrid = getNotesGridFromStackPane(selectedCell);
+            for (Node child : notesGrid.getChildren()) {
+                Label noteLabel = (Label) child;
+                noteLabel.setText("");
+            }
+            targetLabel.setText("");
+        }
+    }
+    //==================================================================================================================
     //=========================================HIỆN THỊ KẾT QUẢ GIẢI====================================================
     //Hiện thị kết quả giải
     @FXML
@@ -470,6 +500,7 @@ public class SudokuController implements Initializable {
             resetCellColors();
             loadBoardValuesFromUI();
             restartPause();
+            disableSuggestAndPause();
             restartVisibleStackPane();
             sudokuGrid.getStyleClass().remove("paused-border");
             time.stopTimer();
