@@ -117,18 +117,24 @@ public class SudokuController implements Initializable {
     public void setupDifficultyEasy(MouseEvent event){
         if(message.showConfirmationDifficulty()){
             handleDifficultySelection(Difficulty.EASY);
+        }else {
+            time.startTimer();
         }
     }
     //Chọn chế độ bình thường
     public void setupDifficultyMedium(MouseEvent event){
         if (message.showConfirmationDifficulty()){
             handleDifficultySelection(Difficulty.MEDIUM);
+        }else {
+            time.startTimer();
         }
     }
     //Chọn chế độ khó
     public void setupDifficultyHard(MouseEvent event){
         if (message.showConfirmationDifficulty()){
             handleDifficultySelection(Difficulty.HARD);
+        }else {
+            time.startTimer();
         }
     }
     //==================================================================================================================
@@ -246,6 +252,7 @@ public class SudokuController implements Initializable {
             }
         }
     }
+    //Hiện thị kết quả tại một ô cụ
     private void updateCellUIFromSolution(int row, int col, int solutionValue) {
         Coordinates coordinates = new Coordinates(row, col);
         StackPane correspondingStackPane = getStackPaneFromCoordinates(coordinates);
@@ -398,6 +405,7 @@ public class SudokuController implements Initializable {
             label_suggest.setText("Gợi ý: " + suggestCount + "/3");
         } else {
             message.showSuggestCount(); // thông báo đã hết số lần gợi ý
+            time.startTimer();
         }
     }
     //Điền gợi ý vào một ô trống trên board
@@ -504,6 +512,8 @@ public class SudokuController implements Initializable {
             restartVisibleStackPane();
             sudokuGrid.getStyleClass().remove("paused-border");
             time.stopTimer();
+        }else {
+            time.startTimer();
         }
     }
     //==================================================================================================================

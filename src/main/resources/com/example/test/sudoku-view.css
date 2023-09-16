@@ -6,17 +6,17 @@ Button{
 }
 /*nút new game*/
 #solution_button{
-    -fx-background-color: #0072e3;
+    -fx-background-color: #5A7BC0;
     -fx-text-fill: #ffffff;
 }
 #solution_button:hover{
-    -fx-background-color: #0065c8;
+    -fx-background-color: #7091d5;
 }
 /*các nút từ 1 -> 9*/
 .nb{
     -fx-font-size: 40px;
     -fx-background-color: #e3e7ec;
-    -fx-text-fill: #0072e3;
+    -fx-text-fill: #5A7BC0;
 }
 .nb:hover{
     -fx-background-color: #cfd5de;
@@ -84,7 +84,7 @@ Button{
     -fx-cursor: hand;
 }
 .difficult_label_selected{
-    -fx-text-fill: #0072e3;
+    -fx-text-fill: #5A7BC0;
 }
 /*Số lần phạm lỗi*/
 .count_error_label{
@@ -104,7 +104,7 @@ Button{
 /*Text chức năng*/
 .function_label{
     -fx-font-size: 12px;
-    -fx-text-fill: #0072e3;
+    -fx-text-fill: #5A7BC0;
     -fx-font-weight: bold;
 }
 

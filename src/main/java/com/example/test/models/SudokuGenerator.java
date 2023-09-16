@@ -1,6 +1,7 @@
 package com.example.test.models;
 
 import com.example.test.controllers.Message;
+import com.example.test.controllers.Time;
 import com.example.test.enums.Difficulty;
 
 import java.util.*;
@@ -155,6 +156,7 @@ public class SudokuGenerator {
     //Dùng backtracking tạo ra một bảng hợp lệ
     private void fillBoard(int currentTileNr){
         Collections.shuffle(possibleValues);//Xáo trộn các số để mỗi lần chạy thuật toán các số được thử ngẫu nhiên
+        System.out.println("Mảng xáo trộn " + possibleValues);
         for (int index = 0; index < possibleValues.size() && !isSolvable; index++) {
             int xIndex = emptyTiles.get(currentTileNr).getX();
             int yIndex = emptyTiles.get(currentTileNr).getY();
@@ -162,7 +164,6 @@ public class SudokuGenerator {
             if (checkRow(xIndex) &&
                     checkColumn(yIndex) &&
                     checkBox((xIndex/3) * 3, (yIndex/3) * 3)) {
-                //printCurrentBoard();
                 if (currentTileNr + 1 == emptyTiles.size()) {
                     isSolvable = true;
                     solutionBoard = copySudokuBoard(board.getBoard());
@@ -193,10 +194,9 @@ public class SudokuGenerator {
     }
     //Kiểm tra giá trị số đặt vào có thỏa mãn luật chơi không
     private boolean isValidMove(int x, int y, int num) {
-        int prevValue = board.getCell(x, y).getValue();  // Lưu giá trị cũ
         board.getCell(x, y).setValue(num);  // Đặt giá trị mới để kiểm tra
         boolean valid = checkRow(x) && checkColumn(y) && checkBox(x - x % 3, y - y % 3);
-        board.getCell(x, y).setValue(prevValue);  // Khôi phục giá trị cũ sau khi kiểm tra
+        board.getCell(x, y).setValue(0);  // Khôi phục giá trị về 0 sau khi kiểm tra
         return valid;
     }
     //Thực hiện xóa một số ô đi
@@ -237,8 +237,7 @@ public class SudokuGenerator {
                 System.out.println(symmetricBackUpValue);
                 failedAttempts++;
                 if (failedAttempts >= MAX_ATTEMPTS) {
-                    Message.showAlert("Thông báo", "Không thể tạo ra một bảng Sudoku với giải pháp duy nhất. " +
-                            "Bảng dưới đây có thể có nhiều cách giải.");
+                    Message.showAlertGeneratorFailed();
                     failedAttempts = 0;
                     return;
                 }
