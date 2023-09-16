@@ -153,14 +153,26 @@ public class SudokuController implements Initializable {
         }
         selectedCell = (StackPane) event.getSource(); //Lấy vị trí ô
         selectedCell.getStyleClass().add("highlighted-selected-cell");
+        Coordinates position = getGridCoordinates(selectedCell);
+        int row = position.getX();
+        int col = position.getY();
+        int startRow = (row / 3) * 3; // Điểm bắt đầu của vùng 3x3 theo hàng
+        int startCol = (col / 3) * 3; // Điểm bắt đầu của vùng 3x3 theo cột
         Label targetLabel = getLabelFromStackPane(selectedCell);
         //Tạo highligh cho các ô có cùng giá trị với ô đã chọn
         String value = targetLabel.getText();
         for (Node cell : sudokuGrid.getChildren()) {
             if (cell instanceof StackPane) {
+                Coordinates currentPos = getGridCoordinates(cell);
+                int currentRow = currentPos.getX();
+                int currentCol = currentPos.getY();
                 Label label = getLabelFromStackPane((StackPane) cell);
                 if (!"0".equals(label.getText().trim()) && !"".equals(label.getText().trim()) && value.equals(label.getText())) {
                     cell.getStyleClass().add("highlighted-same-value");
+                }
+                if ((currentRow >= startRow && currentRow < startRow + 3 && currentCol >= startCol && currentCol < startCol + 3)
+                        || currentRow == row || currentCol == col) {
+                    cell.getStyleClass().add("highlighted-related-cell");
                 }
             }
         }

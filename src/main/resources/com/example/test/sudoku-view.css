@@ -67,7 +67,10 @@ Button{
 }
 /*Click một ô */
 .highlighted-same-value {
-    -fx-background-color: #e2ebf3; /* Một màu xanh nhạt */
+    -fx-background-color: #C3D7EA ; /* Một màu xanh nhạt */
+}
+.highlighted-related-cell{
+    -fx-background-color: #e2ebf3;
 }
 .highlighted-selected-cell {
     -fx-background-color: #bbdefb; /* Màu xanh dương nhạt hơn một chút */
