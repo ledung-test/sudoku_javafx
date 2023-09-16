@@ -142,15 +142,7 @@ public class SudokuController implements Initializable {
     //Sự kiện click một ô trên sudokuGrid
     public void handleCellClick(MouseEvent event) {
         //Thực hiện xóa css trên ô đã chọn trước đó
-        if (selectedCell != null) {
-            for (Node cell : sudokuGrid.getChildren()) {
-                if (cell instanceof StackPane) {
-                    cell.getStyleClass().remove("highlighted-related-cell");
-                    cell.getStyleClass().remove("highlighted-same-value");
-                    cell.getStyleClass().remove("highlighted-selected-cell");
-                }
-            }
-        }
+        restartStyleCell();
         selectedCell = (StackPane) event.getSource(); //Lấy vị trí ô
         selectedCell.getStyleClass().add("highlighted-selected-cell");
         Coordinates position = getGridCoordinates(selectedCell);
@@ -287,6 +279,7 @@ public class SudokuController implements Initializable {
     //Restart game
     public void restartGame() {
         System.out.println(difficulty);
+        restartStyleCell();
         resetTimer();
         resetErrorsAndHints();
         restartPause();
@@ -356,6 +349,17 @@ public class SudokuController implements Initializable {
     private void enableSuggestAndPause(){
         btn_suggest.setDisable(false);
         btn_pause.setDisable(false);
+    }
+    private void restartStyleCell(){
+        if (selectedCell != null) {
+            for (Node cell : sudokuGrid.getChildren()) {
+                if (cell instanceof StackPane) {
+                    cell.getStyleClass().remove("highlighted-related-cell");
+                    cell.getStyleClass().remove("highlighted-same-value");
+                    cell.getStyleClass().remove("highlighted-selected-cell");
+                }
+            }
+        }
     }
     //==================================================================================================================
     //====================================CHỨC NĂNG GHI CHÚ=============================================================
