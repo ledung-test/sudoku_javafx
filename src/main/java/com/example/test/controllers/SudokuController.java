@@ -522,6 +522,7 @@ public class SudokuController implements Initializable {
                 }
             }
             resetCellColors();
+            restartStyleCell();
             loadBoardValuesFromUI();
             restartPause();
             disableSuggestAndPause();

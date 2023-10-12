@@ -1,7 +1,6 @@
 package com.example.test.models;
 
 import com.example.test.controllers.Message;
-import com.example.test.controllers.Time;
 import com.example.test.enums.Difficulty;
 
 import java.util.*;
@@ -155,12 +154,13 @@ public class SudokuGenerator {
     }
     //Dùng backtracking tạo ra một bảng hợp lệ
     private void fillBoard(int currentTileNr){
-        Collections.shuffle(possibleValues);//Xáo trộn các số để mỗi lần chạy thuật toán các số được thử ngẫu nhiên
-        System.out.println("Mảng xáo trộn " + possibleValues);
-        for (int index = 0; index < possibleValues.size() && !isSolvable; index++) {
+        List<Integer> currentValues = new ArrayList<>(possibleValues);
+        Collections.shuffle(currentValues);//Xáo trộn các số để mỗi lần chạy thuật toán các số được thử ngẫu nhiên
+        System.out.println("Mảng xáo trộn " + currentValues);
+        for (int index = 0; index < currentValues.size() && !isSolvable; index++) {
             int xIndex = emptyTiles.get(currentTileNr).getX();
             int yIndex = emptyTiles.get(currentTileNr).getY();
-            board.getCell(xIndex, yIndex).setValue(possibleValues.get(index));
+            board.getCell(xIndex, yIndex).setValue(currentValues.get(index));
             if (checkRow(xIndex) &&
                     checkColumn(yIndex) &&
                     checkBox((xIndex/3) * 3, (yIndex/3) * 3)) {
@@ -172,9 +172,13 @@ public class SudokuGenerator {
                     fillBoard(currentTileNr + 1);
                 }
             }
-            if (!isSolvable)
+            if (!isSolvable) {
                 board.getCell(xIndex, yIndex).setValue(0);
+            }
         }
+//        if (!isSolvable) {
+//            System.out.println("Backtracking, sử dụng mảng: " + currentValues);
+//        }
     }
     //Đếm số lời giải có thể có cho một bảng Sudoku
     private void countSolutions(int currentTileNr) {
