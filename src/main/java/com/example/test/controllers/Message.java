@@ -56,4 +56,17 @@ public class Message {
         alert.setHeaderText("Bảng dưới đây có thể có nhiều cách giải.");
         alert.showAndWait();
     }
+    public void showRule() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Luật chơi");
+        alert.setHeaderText("- Sudoku là câu đố trí tuệ có hình dạng lưới gồm 9x9 ô trống.\n" +
+                            "- Bạn chỉ có thể sử dụng các số từ 1 đến 9.\n" +
+                            "- Mỗi khối gồm 3×3 ô trống chỉ có thể chứa các số từ 1 đến 9.\n" +
+                            "- Mỗi hàng dọc chỉ có thể chứa các số từ 1 đến 9.\n" +
+                            "- Mỗi hàng ngang chỉ có thể chứa các số từ 1 đến 9.\n" +
+                            "- Mỗi số trong khối 3×3, hàng dọc hoặc hàng ngang không được trùng nhau.\n" +
+                            "- Câu đố được giải khi điền đúng hết tất cả các số trên toàn bộ lưới Sudoku.");
+        time.pauseTimer();
+        alert.showAndWait();
+    }
 }

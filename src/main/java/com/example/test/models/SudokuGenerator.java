@@ -235,6 +235,7 @@ public class SudokuGenerator {
             countSolutions(0);
             //Nếu số lời giải khác 1 thì trả lại giá trị cho 2 ô, bằng 1 thì thực hiện xóa ô
             if (solutionsCounter != 1) {
+                System.out.println("Số cách: " + solutionsCounter);
                 board.getCell(xCoord, yCoord).setValue(backUpValue);
                 board.getCell(symmetricXCoord, symmetricYCoord).setValue(symmetricBackUpValue);
                 System.out.println(backUpValue);

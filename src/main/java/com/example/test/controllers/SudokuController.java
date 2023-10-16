@@ -18,6 +18,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class SudokuController implements Initializable {
@@ -28,7 +31,7 @@ public class SudokuController implements Initializable {
     @FXML
     private SVGPath toggleIcon;
     @FXML
-    private Button btn_suggest, btn_pause, btn_delete;
+    private Button btn_suggest, btn_pause, solution_button;
 
     private boolean isPaused = false;
     private int errorCount = 0;
@@ -138,6 +141,12 @@ public class SudokuController implements Initializable {
         }
     }
     //==================================================================================================================
+    //========================================XỬ LÝ CLICK LUẬT LỆ=======================================================
+    public void handleRule(MouseEvent event){
+        message.showRule();
+        time.startTimer();
+    }
+    //==================================================================================================================
     //========================================XỬ LÝ CLICK MỘT Ô TRÊN GRID PANE 9X9======================================
     //Sự kiện click một ô trên sudokuGrid
     public void handleCellClick(MouseEvent event) {
@@ -202,7 +211,7 @@ public class SudokuController implements Initializable {
                 loadBoardValuesFromUI();
                 if (sudokuGenerator.isBoardComplete()) {
                     message.showSuccessMessage();
-                    disableSuggestAndPause();
+                    disableSuggestAndPauseAndSolution();
                 }
             }
         } else {
@@ -287,7 +296,7 @@ public class SudokuController implements Initializable {
         resetCellColors();
         resetNotes();
         restartVisibleStackPane();
-        enableSuggestAndPause();
+        enableSuggestAndPauseAndSolution();
         resetGameBoard();
         loadBoardValuesToUI();
     }
@@ -342,13 +351,15 @@ public class SudokuController implements Initializable {
         sudokuGrid.getStyleClass().remove("paused-border");
         printBoardInConsole();
     }
-    private void disableSuggestAndPause(){
+    private void disableSuggestAndPauseAndSolution(){
         btn_suggest.setDisable(true);
         btn_pause.setDisable(true);
+        solution_button.setDisable(true);
     }
-    private void enableSuggestAndPause(){
+    private void enableSuggestAndPauseAndSolution(){
         btn_suggest.setDisable(false);
         btn_pause.setDisable(false);
+        solution_button.setDisable(false);
     }
     private void restartStyleCell(){
         if (selectedCell != null) {
@@ -426,25 +437,32 @@ public class SudokuController implements Initializable {
     }
     //Điền gợi ý vào một ô trống trên board
     public void provideHint() {
-        resetCellColors();
-        boolean isHintProvided = false;
+
+        List<Coordinates> emptyCells = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                Cell cell = sudokuGenerator.getBoard().getCell(i, j);
-                if (cell.getValue() == 0) {
-                    int solutionValue = sudokuGenerator.getSolutionValue(i, j);
-                    cell.setValue(solutionValue);
-                    updateCellUIFromSolution(i,j, solutionValue);
-                    isHintProvided = true;
-                    break;
+                if (sudokuGenerator.getBoard().getCell(i, j).getValue() == 0) {
+                    emptyCells.add(new Coordinates(i, j));
                 }
             }
-            if (isHintProvided) {
-                break;
-            }
         }
+        if (emptyCells.isEmpty()) {
+            return; // Không còn ô trống nào, không cần cung cấp gợi ý.
+        }
+        Coordinates randomCell = emptyCells.get(new Random().nextInt(emptyCells.size()));
+        Cell cell = sudokuGenerator.getBoard().getCell(randomCell.getX(), randomCell.getY());
+        int solutionValue = sudokuGenerator.getSolutionValue(randomCell.getX(), randomCell.getY());
+        cell.setValue(solutionValue);
+        StackPane stackPane = getStackPaneFromCoordinates(randomCell);
+        Label label = getLabelFromStackPane(stackPane);
+        Color lbColor = (Color) label.getTextFill();
+        if (lbColor == Color.RED){
+            label.setTextFill(Color.BLACK);
+        }
+        updateCellUIFromSolution(randomCell.getX(), randomCell.getY(), solutionValue);
+
         // Kiểm tra xem bảng Sudoku đã hoàn thành chưa sau khi cung cấp gợi ý.
-        if (isHintProvided && sudokuGenerator.isBoardComplete()) {
+        if (sudokuGenerator.isBoardComplete()) {
             message.showSuccessMessage();
         }
     }
@@ -525,7 +543,7 @@ public class SudokuController implements Initializable {
             restartStyleCell();
             loadBoardValuesFromUI();
             restartPause();
-            disableSuggestAndPause();
+            disableSuggestAndPauseAndSolution();
             restartVisibleStackPane();
             sudokuGrid.getStyleClass().remove("paused-border");
             time.stopTimer();

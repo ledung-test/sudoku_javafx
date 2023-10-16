@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
@@ -2676,6 +2677,11 @@
                   <Label fx:id="label_hard" onMouseClicked="#setupDifficultyHard" styleClass="difficult_label" text="Khó" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                   <Label fx:id="error_lb" styleClass="count_error_label" text="Lỗi: 0/3" GridPane.columnIndex="5" GridPane.rowIndex="1" />
                   <Label fx:id="time_label" styleClass="difficult_label" text="Time:" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                  <Label fx:id="label_rule" alignment="BOTTOM_LEFT" onMouseClicked="#handleRule" styleClass="difficult_label" text="Luật chơi" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="100.0" />
+                     </GridPane.margin>
+                  </Label>
                </children>
             </GridPane>
          </children>
